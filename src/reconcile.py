@@ -3,22 +3,16 @@ GVP Reconciliation service for OpenRefine 2.6-beta1.
 
 Takes query data from URL request, coarsely searches for it against the Getty Vocab SPARQL endpoint, returns JSON of possible .
 
-Adapted by Charlie Butcosk from http://code.google.com/p/google-refine/wiki/ReconciliationServiceApi, mikejs, 
+Adapted by Charlie Butcosk from http://code.google.com/p/google-refine/wiki/ReconciliationServiceApi, Mike Stephens' demo reconciler service, https://github.com/mikejs/reconcile-demo, and Alex Dergachev's redmine-reconciler, https://github.com/dergachev/redmine-reconcile 
 
-sparql query we'll send : 
+The service takes in multi-mode queries from a RESTful URL call and formats as a SPARQL query on the Getty Vocabularies' endpoint (http://vocab.getty.edu).
 
-select distinct * {
-	?entry (xl:prefLabel|xl:altLabel)/gvp:term "query"@en . ?entry gvp:prefLabelGVP/xl:literalForm ?label ;
-		gvp:broaderExtended aat:<mat'l (300010357) or objs (300264092)>
-	luc:term "query*" }
+Results from the endpoint are then parsed and formatted as the response to the initial call of the service.
 
-URL: http://vocab.getty.edu/sparql.json?query=
-
-FIXME:
-- should use guide terms instead of facets in broaderExtended query
-- only searches mat'l or object (ULAN would be nice, eg)
-- should parse JSON result and give CSV sep'd list of URLs
-
+TODO:
+- Half-implemented code to take in english-langauge material descriptions of objects and return CSV lists of GVP terms.
+- ULAN searching.
+- Preview/suggest function to streamline picking through multiple term entries. 
 """
 
 import re, requests, pprint
@@ -26,8 +20,7 @@ import re, requests, pprint
 from flask import Flask, request, jsonify, json
 app = Flask(__name__)
 
-# Basic service metadata. There are a number of other documented options
-# but this is all we need for a simple service.
+# Basic service metadata. "preview" functionality is not implemented yet, though the metadata tag is there.
 metadata = {
 	"name" : "GVP Reconciliation Service",
 	"preview" : {
