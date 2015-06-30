@@ -8,6 +8,7 @@ The data is the first result of the Museum's project to clean, normalize, and re
 
 For V1.0, data are presented in a simple object/properties schema, JSON-wrapped as:
 
+```
 {
 	"objects" : [
 	{
@@ -26,26 +27,27 @@ For V1.0, data are presented in a simple object/properties schema, JSON-wrapped 
 		"accession_num" : {{value)}}
 	} ]
 }
+```
 
 ## Schema
 
 The properties of a given object are:
 
-*embark_ID*: unique identifier field
-*artist*: full name of object's creator
-*title*: object's title
-*year_made*: year of the object's creation
-*year_acqd*: year the object entered Colby's collection 
-*media*: description of object's material composition
-*media_AAT*: media description as a comma-separated list of Getty Vocabulary terms 
-*dimensions*: the object's physical dimensions as A x B in. (C x D cm)
-*printer*: where applicable and available, an object's printer or replicator
-*label*: where available, wall label data (historical notes, nationality notes, etc)
-*credit_line*: collection 
-*notes*: miscellaneous data (usually truncated tails from material descriptions)
-*accession_num*: the object's accession number
+	*embark_ID*: unique identifier field
+	*artist*: full name of object's creator
+	*title*: object's title
+	*year_made*: year of the object's creation
+	*year_acqd*: year the object entered Colby's collection 
+	*media*: description of object's material composition
+	*media_AAT*: media description as a comma-separated list of Getty Vocabulary terms 
+	*dimensions*: the object's physical dimensions as A x B in. (C x D cm)
+	*printer*: where applicable and available, an object's printer or replicator
+	*label*: where available, wall label data (historical notes, nationality notes, etc)
+	*credit_line*: collection 
+	*notes*: miscellaneous data (usually truncated tails from material descriptions)
+	*accession_num*: the object's accession number
 
-Notes: 
+### Notes: 
 
 - Because *accession_num*, though unique, can change over time, *embark_ID* is the object's key value. 
 
