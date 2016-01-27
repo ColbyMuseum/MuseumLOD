@@ -1,65 +1,75 @@
 # Open-licensed Collections Data for the Colby College Museum of Art
 
-This repository contains the Colby College Museum of Art's first open release of collections data! This first release represents about one quarter of the museum's collection, including data for much of the Lunder Collection and for most of the works by Alex Katz in the collection. It is published under a Creative Commons 1.0 License, and its associated code is published under a BSD-style license (see below).
+This repository contains open-licensed releases of the Colby College Museum of Art's collections data. This release consists of 7659 objects, including data for the Lunder Collection and works by Alex Katz in the collection. It is published under a Creative Commons 1.0 License (https://creativecommons.org/publicdomain/zero/1.0/). Associated code is published under a BSD-style license (see below).
 
-The data is the first result of the Museum's project to clean, normalize, and release collections data under an open license. At present, it is published in a flat text file without images (the data is also available in a searchable, but web-only, form at http://www.colby.edu/museum/?s). Our goal is ultimately to release this data as semantically-expressed linked data.
+This data is the result of the Museum's project to clean, normalize, and release collections data under an open license. It is presented without images (the data is also available in a searchable, but web-only, form at http://www.colby.edu/museum/?s). Our goal is ultimately to release this data as semantically-expressed linked data as part of our participation in the American Art Collaborative (http://www.americanartcollaborative.org).
 
 ## Format
 
-For V1.0, data are presented in a simple object/properties schema, JSON-wrapped as:
+For V1.5, we have substantially changed our release formats, which are now available as JSON and text files of flat comma-separated values (one file of objects, one of exhibitions). Our JSON uses empty strings to indicate no data present, and is formatted as:
 
 ```
 {
 	"objects" : [
-	{
-		"embark_ID" : {{value)}}, 
-		"artist" : {{value}},
-		"title" : {{value}},
-		"year_made" : {{value}},
-		"year_acqd" : {{value}},
-		"media" : {{value)}},
-		"media_AAT" : {{value)}},
-		"dimensions" : {{value)}},
-		"printer" : {{value)}},
-		"label" : {{value)}},
-		"credit_Line" : {{value)}},
-		"notes" : {{value)}},
-		"accession_num" : {{value)}}
-	} ]
+		{
+      		"embark_ID" : *unique identifier*,
+      		"URL" : "URL to record in CCMA's online collections",
+      		"Disp_Access_No" : "CCMA accession number",
+      		"_AccNumSort1" : "Sort order of accession number (usually nil)",
+      		"Disp_Create_DT" : "Generated date field (usually 1234-5678 or ca.)",
+      		"_Disp_Start_Dat" : "Earliest date of object creation",
+ 	     	"_Disp_End_Date" : "Latest date of object creation",
+	      	"Disp_Title" : "Full title",
+	      	"Alt_Title" : "Alternate title",
+      		"Obj_Title" : "Object title",
+      		"Series_Title" : "Series title",
+      		"Disp_Maker_1" : "Maker name (usually FirstName LastName)",
+      		"Sort_Artist" : "Sortable maker name (usually LastName, FirstName)",
+      		"Disp_Dimen" : "Generated object dimensions (usually in x in (cm x cm))",
+      		"Medium" : "Object medium (may also contain edition information for works on paper)",
+		"Support" : "Object support (may also contain edition information for works on paper)",
+      		"Info_Page_Comm" : "Object description for web access (deprecated)",
+      		"Dedication" : "Object dedication and collection information",
+      		"Copyright_Type" : "Object copyright limitations (deprecated)",
+      		"Disp_Obj_Type" : "Object type (Sculpture, Ceramics, etc)",
+      		"Creation_Place2" : "Object's place of creation (deprecated)",
+      		"Department" : "Department of responsibility for object (deprecated)",
+      		"Obj_Name" : "Object name (deprecated)",
+      		"Period" : "Period of object creation",
+      		"Style" : "Object style (deprecated)",
+      		"Edition" : "Edition and state information for works on paper (where available)",
+      		"Curator" : "Curator responsible for object description (deprecated)"
+    		},
+		.
+		.
+		.
+		.
+    ]
+
+	"exhibitions" : [
+		{
+		"embark_ID" : "Object present at exhibition",
+		"Exhibition_Name" : "Exhibition name",
+		"Start_Date" : "Start date of exhibition",
+		"End_Date" : "End date of exhibition",
+		"User_Def_1" : "Unique identifier for exhibition (projected)"
+		},
+		.
+		.
+		.
+		.
+		
+	]
 }
 ```
 
-## Schema
-
-The properties of a given object are:
-
-	*embark_ID*: unique identifier field
-	*artist*: full name of object's creator
-	*title*: object's title
-	*year_made*: year of the object's creation
-	*year_acqd*: year the object entered Colby's collection 
-	*media*: description of object's material composition
-	*media_AAT*: media description as a comma-separated list of Getty Vocabulary terms 
-	*dimensions*: the object's physical dimensions as A x B in. (C x D cm)
-	*printer*: where applicable and available, an object's printer or replicator
-	*label*: where available, wall label data (historical notes, nationality notes, etc)
-	*credit_line*: collection 
-	*notes*: miscellaneous data (usually truncated tails from material descriptions)
-	*accession_num*: the object's accession number
+And our CSV files contain the same fields in the same order, but show NULL for empty values.
 
 ### Notes: 
 
-- Because *accession_num*, though unique, can change over time, *embark_ID* is the object's key value. 
+- This release strips our previous release's *media_AAT* field, which should return in our planned LIDO-XML release of this data.
 
-- *media_AAT* is a convenience field that provides the terms of *media* that reconcile to the Getty Vocabulary Project's Art and Architecture Thesaurus. Our intention is to expose this field as links to these terms on the GVP, so this field is expressed as the term's preferred Getty Vocabulary label, along w its Getty Vocabulary ID number (formatted as: term AAT:(gvp_id)). These terms are then comma-separated.
-
-- The signal exceptions to the above dimension schema are 300-odd works on paper by James McNeil Whistler, which carry plate and sheet dimensions in mm, formatted as: "plate: A x B mm, sheet: C x D mm". 
-
-## reconcile.py
-
-Also in this repository is reconcile.py, a simple python script that provides a Flask-based reconciliation service for OpenRefine, (https://github.com/OpenRefine/OpenRefine). 
-
-The service follows OpenRefine's reconciliation API, (https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API), and takes individual material terms (e.g., *oil paint*, *canvas*, or *engraving*, etc) and reconciles them to the object and material facets of the Getty Vocabulary Project's Art and Architecture Thesaurus via their SPARQL endpoint, (http://vocab.getty.edu). The code that supports this feature is based on two implementations of the OpenRefine API, primarily (https://github.com/dergachev/redmine-reconcile) and (https://github.com/mikejs/reconcile-demo).
+- A signal exceptions to the above dimension schema are 300-odd works on paper by James McNeil Whistler, which carry plate and sheet dimensions in mm, formatted as: "plate: A x B mm, sheet: C x D mm". 
 
 ## License
 
@@ -67,4 +77,5 @@ Collections Data of the Colby Museum of Art are provided with a Creative Commons
 
 ## Contact
 
-museum@colby.edu
+If you have any questions about this release, or the Colby College Museum of Art's other digital projects, please contact us:
+museum at colby.edu, cbutcosk at colby.edu
