@@ -6,7 +6,7 @@ This data is the result of the Museum's project to clean, normalize, and release
 
 ## Format
 
-For V1.5, we have substantially changed our release formats, which are now available as JSON and text files of flat comma-separated values (one file of objects, one of exhibitions). Our JSON uses empty strings to indicate no data present, and is formatted as:
+For V1.5, we have substantially changed our release formats, which for the time being are only available as JSON. Our JSON uses empty strings to indicate no data present, and is formatted as:
 
 ```
 {
@@ -62,8 +62,6 @@ For V1.5, we have substantially changed our release formats, which are now avail
 	]
 }
 ```
-
-And our CSV files contain the same fields in the same order, but show NULL for empty values.
 
 ### Notes: 
 
