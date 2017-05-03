@@ -1,0 +1,9 @@
+<!doctype html>
+<title>Entry</title>
+{% if scope_note, id_num, pref_name %}
+<h1>AAT Entry {{ id_num }}</h1>
+<em>Name:</em> {{ pref_name }}<p>
+<em>Note:</em> {{ scope_note }}<p>
+{% else %}
+<h1>Ooops, something went wrong!</h1>
+{% endif %}

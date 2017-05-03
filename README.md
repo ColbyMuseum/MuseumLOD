@@ -1,12 +1,14 @@
 # Open-licensed Collections Data for the Colby College Museum of Art
 
-This repository contains open-licensed releases of the Colby College Museum of Art's collections data. This release consists of 7659 objects, including data for the Lunder Collection and works by Alex Katz in the collection. It is published under a Creative Commons 1.0 License (https://creativecommons.org/publicdomain/zero/1.0/). Associated code is published under a BSD-style license (see below).
+This repository contains open-licensed releases of the Colby College Museum of Art's collections data. This release consists of nearly every object in the collection, including data for the Lunder Collection (including a number of prints by James McNeil Whistler), many works Alex Katz, a trove of works by Bernard Langlais, and much more. It is published under a [Creative Commons 1.0 License](https://creativecommons.org/publicdomain/zero/1.0/). Associated code is published under a BSD-style license (see below).
 
-This data is the result of the Museum's project to clean, normalize, and release collections data under an open license. It is presented without images (the data is also available in a searchable, but web-only, form at http://www.colby.edu/museum/?s). Our goal is ultimately to release this data as semantically-expressed linked data as part of our participation in the American Art Collaborative (http://www.americanartcollaborative.org).
+This data is the result of the Museum's project to clean, normalize, and release collections data under an open license as part of [the American Art Collaborative](http://www.americanartcollaborative.org). We have a human-legible interface at our [collection website](http://www.colby.edu/museum/?s=), our repo contains data as a JSON structure (detailed below), is available as N3 at [our AAC github repo](https://github.com/american-art/ccma), and will be available soon at our SPARQL endpoint.  
 
-## Format
+## JSON structure
 
-For V1.5, we have substantially changed our release formats, which for the time being are only available as JSON. Our JSON uses empty strings to indicate no data present, and is formatted as:
+In our JSON release, data is formatted as a dictionary containing three keys, "objects", "artists", and "exhibitions" that each contain an array of that record type. Each record is a dictionary of fields and their values. Objects have an array of dictionary, "Images", that express images about reproductions of individual objects (web URLs, primariness, reproduction date, etc). 
+
+Strings without values are expressed as empty strings and there are no NULL values.
 
 ```
 {
@@ -38,7 +40,16 @@ For V1.5, we have substantially changed our release formats, which for the time 
       		"Period" : "Period of object creation",
       		"Style" : "Object style (deprecated)",
       		"Edition" : "Edition and state information for works on paper (where available)",
-      		"Curator" : "Curator responsible for object description (deprecated)"
+      		"Curator" : "Curator responsible for object description (deprecated)",
+		"Images" : [
+				{
+				"IIIF_URL" : "IIIF ID URL for this image",
+				**FIXME 
+				},
+				.
+				.
+				.
+			]
     		},
 		.
 		.
